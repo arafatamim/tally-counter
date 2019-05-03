@@ -1,4 +1,8 @@
-# tally-counter
+# Tally Counter
+
+
+Simple tally counter which you can save as a PWA
+
 
 ## Project setup
 ```
@@ -15,11 +19,6 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
-
 ### Lints and fixes files
 ```
 npm run lint
@@ -27,3 +26,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## License
+MIT Licensed
+
+By Tamim Arafat, 2019.
