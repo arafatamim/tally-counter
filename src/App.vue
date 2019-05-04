@@ -4,8 +4,8 @@
     <Container>
       <Counter
         v-for="(counter, i) in counters"
-        :cName.sync="counter.name"
-        :cVal.sync="counter.value"
+        :cName="counter.name"
+        :cVal="counter.value"
         :key="i"
         @incCounter="counter.value++"
         @decCounter="counter.value--"
@@ -14,7 +14,7 @@
         @delCounter="deleteCounter(i)"
       />
 
-      <NewCounter @addNewCounter="newCounter()" key="nc"/>
+      <NewCounter @addNewCounter="newCounter()"/>
     </Container>
   </div>
 </template>
@@ -33,17 +33,13 @@ export default {
     NewCounter
   },
   data: () => ({
-    counters: [
-      {
-        name: "Cakes",
-        value: 6
-      },
-      {
-        name: "Rambutans",
-        value: 7
-      }
-    ]
+    counters: []
   }),
+  mounted() {
+    if (localStorage.getItem("items")) {
+      this.counters = JSON.parse(localStorage.getItem("items"));
+    }
+  },
   methods: {
     newCounter() {
       var itemList = [
@@ -73,9 +69,17 @@ export default {
       item.name = payload;
     },
     setCValue(payload, item) {
-      if (typeof payload == "number") {
+      if (typeof parseInt(payload) == "number") {
         item.value = parseInt(payload);
       }
+    }
+  },
+  watch: {
+    counters: {
+      handler() {
+        localStorage.setItem("items", JSON.stringify(this.counters));
+      },
+      deep: true
     }
   }
 };

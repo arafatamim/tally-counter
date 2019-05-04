@@ -1,7 +1,6 @@
-<template>
-  <div class="titleBar">
-    <div id="title">{{name}}</div>
-  </div>
+<template lang="pug">
+  .titleBar
+    #title {{name}}
 </template>
 
 <script>

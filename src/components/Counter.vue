@@ -1,22 +1,17 @@
-<template>
-  <div>
-    <div class="counter" v-hammer:swipe.right="onSwipeRight">
-      <div class="first">
-        <button class="actions" @click="$emit('decCounter')">
-          <font-awesome-icon :icon="['far', 'minus-square']"></font-awesome-icon>
-        </button>
-      </div>
-      <div class="second">
-        <input class="name" onfocus="this.select()" placeholder="Something?" v-model="name">
-        <input class="value" onfocus="this.select()" v-model="value">
-      </div>
-      <div class="third">
-        <button class="actions" @click="$emit('incCounter')">
-          <font-awesome-icon :icon="['far', 'plus-square']"></font-awesome-icon>
-        </button>
-      </div>
-    </div>
-  </div>
+
+<template lang="pug">
+  div
+    .counter(v-hammer:swipe.right="onSwipeRight")
+      .first
+        button.actions(@click="$emit('decCounter')")
+          font-awesome-icon(:icon="['far', 'minus-square']")
+      .second
+        input.name(onfocus="this.select()" placeholder="Something?" v-model="name")
+        input.value(onfocus="this.select()" v-model="value")
+      .third
+        button.actions(@click="$emit('incCounter')")
+          font-awesome-icon(:icon="['far', 'plus-square']")
+
 </template>
 
 <script>

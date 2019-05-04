@@ -1,9 +1,7 @@
-<template>
-  <div>
-    <div class="newcounter" @click="addCounter()">
-      <font-awesome-icon class="addIcon" :icon="['far', 'plus-square']"></font-awesome-icon>
-    </div>
-  </div>
+<template lang="pug">
+  div
+    .newcounter(@click="addCounter()")
+      font-awesome-icon.addIcon(:icon="['far', 'plus-square']")
 </template>
 
 <script>
