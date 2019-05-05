@@ -6,11 +6,7 @@
             <template v-slot:trigger>
                 <font-awesome-icon id="icon" :icon="['far', 'question-circle']"></font-awesome-icon>
             </template>
-<<<<<<< HEAD
             - Swipe to delete item on mobile
-=======
-            <br>- Swipe to delete item on mobile
->>>>>>> 4a47c672ebed91b0277c82d3e815c3ae8914de43
             <br>- Tap/click on the item name or value to edit it manually
             <br>
             <br>Simple and handy tally counter
