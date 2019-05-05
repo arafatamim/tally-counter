@@ -11,14 +11,13 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-regular-svg-icons": "^5.8.1",
     "@fortawesome/vue-fontawesome": "^0.1.6",
-    "bulma": "^0.7.4",
     "core-js": "^2.6.5",
+    "hammerjs": "^2.0.8",
     "i": "^0.3.6",
     "normalize.css": "^8.0.1",
     "npm": "^6.9.0",
     "register-service-worker": "^1.6.2",
-    "vue": "^2.6.10",
-    "vue2-hammer": "^2.1.2"
+    "vue": "^2.6.10"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",
