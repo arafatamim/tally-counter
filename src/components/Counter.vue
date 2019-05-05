@@ -1,7 +1,7 @@
 
 <template lang="pug">
   div
-    .counter(v-swipe='onSwipeRight' ref='counter')
+    .counter(v-swipe='onSwipeRight', ref='counter')
       .first
         button.actions(@click="$emit('decCounter')")
           font-awesome-icon(:icon="['far', 'minus-square']")
@@ -19,7 +19,7 @@ export default {
     props: ["cName", "cVal"],
     data() {
         return {
-            currentOffset: 0
+            isGone: false
         };
     },
     computed: {
@@ -41,18 +41,8 @@ export default {
         }
     },
     methods: {
-        onSwipeRight(e) {
-            // this.$emit("delCounter");
-            const transform = e.deltaX / 2;
-            const opacity = 1 - Math.floor(e.deltaX) / 100;
-            console.log(transform);
-
-            this.$refs.counter.style.setProperty("--x", transform);
-            console.log(opacity);
-            this.$refs.counter.style.setProperty("--y", opacity);
-            if (e.isFinal) {
-                this.$emit("delCounter");
-            }
+        onSwipeRight() {
+            this.$emit("delCounter");
         }
     }
 };
@@ -74,9 +64,10 @@ export default {
     justify-content: space-around;
     //   justify-items: center;
     align-items: center;
-    transform: translateX(calc(var(--x, 0) * 1%));
-    opacity: var(--y, 1);
+    // transform: translateX(calc(var(--x, 0) * 1%));
+    // opacity: var(--y, 1);
 }
+
 .first,
 .third {
     font-size: 16pt;
