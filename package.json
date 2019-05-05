@@ -17,7 +17,8 @@
     "normalize.css": "^8.0.1",
     "npm": "^6.9.0",
     "register-service-worker": "^1.6.2",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-tippy": "^4.0.0-beta.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",

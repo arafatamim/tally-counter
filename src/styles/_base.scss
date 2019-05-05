@@ -4,3 +4,22 @@ $base-font: "Muli", sans-serif;
 $bg-colour: #333;
 $fg-colour: #eee;
 $accent-colour: burlywood;
+
+.tippy-tooltip {
+  background-color: #444;
+  font-family: $base-font;
+  padding: 15px;
+  box-shadow: 1px 1px 10px #222;
+  a {
+    color: $fg-colour;
+    text-decoration-style: dashed;
+  }
+
+  user-select: none;
+}
+.tippy-popper[x-placement^="bottom"] .tippy-arrow {
+  border-bottom-color: #444;
+}
+.tippy-popper[x-placement^="top"] .tippy-arrow {
+  border-top-color: #444;
+}

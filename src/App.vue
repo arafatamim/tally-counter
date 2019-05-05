@@ -1,8 +1,8 @@
-<template lang='pug'>
-    #app
-        Header
-        Container
-            Counter(
+<template>
+    <div id="app">
+        <Header/>
+        <Container>
+            <Counter
                 v-for="(counter, i) in counters"
                 :cName="counter.name"
                 :cVal="counter.value"
@@ -11,9 +11,12 @@
                 @decCounter="counter.value--"
                 @setName="setCName($event, counter)"
                 @setValue="setCValue($event, counter)"
-                @delCounter="deleteCounter(i)")
+                @delCounter="deleteCounter(i)"
+            />
 
-            NewCounter(@addNewCounter="newCounter()")
+            <NewCounter @addNewCounter="newCounter()"/>
+        </Container>
+    </div>
 </template>
 
 <script>

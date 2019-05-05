@@ -1,6 +1,7 @@
-<template lang='pug'>
-  .wrapper
-    slot/
+<template>
+    <div class="wrapper">
+        <slot></slot>
+    </div>
 </template>
 
 <script>

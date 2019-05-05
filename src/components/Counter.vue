@@ -1,27 +1,38 @@
 
-<template lang="pug">
-  div
-    .counter(v-swipe='onSwipeRight', ref='counter')
-      .first
-        button.actions(@click="$emit('decCounter')")
-          font-awesome-icon(:icon="['far', 'minus-square']")
-      .second
-        input.name(onfocus="this.select()" placeholder="Something?" v-model="name")
-        input.value(onfocus="this.select()" v-model="value")
-      .third
-        button.actions(@click="$emit('incCounter')")
-          font-awesome-icon(:icon="['far', 'plus-square']")
-
+<template>
+    <div>
+        <tippy arrow interactive="true" :delay="[350,20]" duration="150">
+            <template v-slot:trigger>
+                <div class="counter" v-swipe="deleteCounter" ref="counter" name="showTip">
+                    <div class="first">
+                        <button class="actions" @click="$emit('decCounter')">
+                            <font-awesome-icon :icon="['far', 'minus-square']"></font-awesome-icon>
+                        </button>
+                    </div>
+                    <div class="second">
+                        <input
+                            class="name"
+                            onfocus="this.select()"
+                            placeholder="Something?"
+                            v-model="name"
+                        >
+                        <input class="value" onfocus="this.select()" v-model="value">
+                    </div>
+                    <div class="third">
+                        <button class="actions" @click="$emit('incCounter')">
+                            <font-awesome-icon :icon="['far', 'plus-square']"></font-awesome-icon>
+                        </button>
+                    </div>
+                </div>
+            </template>
+            <font-awesome-icon :icon="['far', 'trash-alt']" @click="deleteCounter"></font-awesome-icon>
+        </tippy>
+    </div>
 </template>
 
 <script>
 export default {
     props: ["cName", "cVal"],
-    data() {
-        return {
-            isGone: false
-        };
-    },
     computed: {
         name: {
             get() {
@@ -41,7 +52,7 @@ export default {
         }
     },
     methods: {
-        onSwipeRight() {
+        deleteCounter() {
             this.$emit("delCounter");
         }
     }
@@ -62,10 +73,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    //   justify-items: center;
     align-items: center;
-    // transform: translateX(calc(var(--x, 0) * 1%));
-    // opacity: var(--y, 1);
 }
 
 .first,
