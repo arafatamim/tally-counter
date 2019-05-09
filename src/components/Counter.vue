@@ -107,12 +107,14 @@ export default {
     width: 50px;
     height: 50px;
     transition: background-color 0.1s;
-    &:hover {
-        background-color: #555;
-        outline: none;
-    }
     &:active {
         background-color: #666;
+    }
+}
+@media (hover: hover) {
+    .actions:hover {
+        background-color: #555;
+        outline: none;
     }
 }
 </style>
