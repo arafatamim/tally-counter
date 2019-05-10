@@ -109,12 +109,23 @@ export default {
     transition: background-color 0.1s;
     &:active {
         background-color: #666;
+        outline: none;
+    }
+    &:focus {
+        outline: none;
     }
 }
 @media (hover: hover) {
-    .actions:hover {
-        background-color: #555;
-        outline: none;
+    .actions {
+        &:hover {
+            background-color: #555;
+        }
+        &:active {
+            background-color: #666;
+        }
+        &:focus {
+            background-color: #555;
+        }
     }
 }
 </style>
