@@ -1,6 +1,6 @@
 {
-  "name": "Tally Counter PWA",
-  "short_name": "Tally Counter",
+  "name": "Tabs",
+  "short_name": "Tabs",
   "theme_color": "#deb887",
   "background_color": "#333333",
   "display": "standalone",

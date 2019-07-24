@@ -32,7 +32,7 @@
 export default {
     data() {
         return {
-            name: "Tally Counter"
+            name: "Tabs"
         };
     }
 };
