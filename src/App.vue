@@ -117,8 +117,10 @@ body {
 }
 
 .list-leave-to {
+  position: absolute;
   opacity: 0;
-  transform: scaleY(0);
+  // transform: scaleY(0);
+  transform: translateX(30px);
   transform-origin: center top;
 }
 // .list-enter-active,
