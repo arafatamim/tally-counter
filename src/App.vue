@@ -51,8 +51,7 @@ export default {
         "Berries",
         "Avocados"
       ];
-      var randomItem =
-        itemList[Math.floor(Math.random() * itemList.length)] + "?";
+      var randomItem = itemList[Math.floor(Math.random() * itemList.length)];
       this.counters.push({
         _id: shortid.generate(),
         name: randomItem,
