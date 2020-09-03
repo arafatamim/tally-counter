@@ -7,13 +7,13 @@
         :cName="counter.name"
         :cVal="counter.value"
         :key="counter._id"
-        @incCounter="counter.value++"
-        @decCounter="counter.value--"
-        @setName="setCName($event, counter)"
-        @setValue="setCValue($event, counter)"
-        @delCounter="deleteCounter(i)"
+        @inc-counter="counter.value++"
+        @dec-counter="counter.value--"
+        @set-name="setCName($event, counter)"
+        @set-value="setCValue($event, counter)"
+        @del-counter="deleteCounter(i)"
       />
-      <NewCounter @addNewCounter="newCounter()" key="new_counter" />
+      <NewCounter @add-new-counter="newCounter()" key="new_counter" />
     </Container>
   </div>
 </template>
@@ -23,16 +23,17 @@ import Header from "@/components/Header.vue";
 import Container from "@/components/Container.vue";
 import Counter from "@/components/Counter.vue";
 import NewCounter from "@/components/NewCounter.vue";
-import shortid from "shortid";
+import nanoid from "nanoid";
+
 export default {
   components: {
     Header,
     Container,
     Counter,
-    NewCounter
+    NewCounter,
   },
   data: () => ({
-    counters: []
+    counters: [],
   }),
   mounted() {
     if (localStorage.getItem("items")) {
@@ -49,13 +50,13 @@ export default {
         "Limes",
         "Peaches",
         "Berries",
-        "Avocados"
+        "Avocados",
       ];
       var randomItem = itemList[Math.floor(Math.random() * itemList.length)];
       this.counters.push({
-        _id: shortid.generate(),
+        _id: nanoid(4),
         name: randomItem,
-        value: 0
+        value: 0,
       });
     },
     deleteCounter(index) {
@@ -68,16 +69,16 @@ export default {
       if (typeof parseInt(payload) == "number") {
         item.value = parseInt(payload);
       }
-    }
+    },
   },
   watch: {
     counters: {
       handler() {
         localStorage.setItem("items", JSON.stringify(this.counters));
       },
-      deep: true
-    }
-  }
+      deep: true,
+    },
+  },
 };
 </script>
 

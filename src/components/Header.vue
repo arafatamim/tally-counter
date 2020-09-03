@@ -22,7 +22,7 @@
       <a href="https://ko-fi.com/Q5Q1TLM1" target="_blank">
         <img
           height="36"
-          style="border:0px;height:36px;"
+          style="border: 0px; height: 36px"
           src="../assets/kofi3.png"
           border="0"
           alt="Buy Me a Coffee at ko-fi.com"
@@ -36,9 +36,9 @@
 export default {
   data() {
     return {
-      name: "Tabs"
+      name: "Tabs",
     };
-  }
+  },
 };
 </script>
 

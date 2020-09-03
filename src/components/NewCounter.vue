@@ -14,15 +14,15 @@ export default {
   data() {
     return {
       name: null,
-      value: null
+      value: null,
     };
   },
   methods: {
     addCounter() {
-      this.$emit("addNewCounter");
+      this.$emit("add-new-counter");
       document.getElementsByClassName("newcounter")[0].scrollIntoView();
-    }
-  }
+    },
+  },
 };
 </script>
 

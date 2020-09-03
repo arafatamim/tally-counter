@@ -15,7 +15,7 @@
           name="showTip"
         >
           <div class="first">
-            <button class="actions" @click="$emit('decCounter')">
+            <button class="actions" @click="$emit('dec-counter')">
               <font-awesome-icon
                 :icon="['far', 'minus-square']"
               ></font-awesome-icon>
@@ -31,7 +31,7 @@
             <input class="value" onfocus="this.select()" v-model="value" />
           </div>
           <div class="third">
-            <button class="actions" @click="$emit('incCounter')">
+            <button class="actions" @click="$emit('inc-counter')">
               <font-awesome-icon
                 :icon="['far', 'plus-square']"
               ></font-awesome-icon>
@@ -56,23 +56,23 @@ export default {
         return this.cName;
       },
       set(newValue) {
-        this.$emit("setName", newValue);
-      }
+        this.$emit("set-name", newValue);
+      },
     },
     value: {
       get() {
         return this.cVal;
       },
       set(newValue) {
-        this.$emit("setValue", newValue);
-      }
-    }
+        this.$emit("set-value", newValue);
+      },
+    },
   },
   methods: {
     deleteCounter() {
-      this.$emit("delCounter");
-    }
-  }
+      this.$emit("del-counter");
+    },
+  },
 };
 </script>
 

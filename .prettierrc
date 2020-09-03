@@ -4,5 +4,6 @@
   "semi": true,
   "htmlWhitespaceSensitivity": "css",
   "printWidth": 80,
-  "proseWrap": "always"
+  "proseWrap": "always",
+  "trailingComma": "es5"
 }
