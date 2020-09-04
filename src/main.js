@@ -9,7 +9,7 @@ import {
   faPlusSquare,
   faMinusSquare,
   faQuestionCircle,
-  faTrashAlt
+  faTrashAlt,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -24,11 +24,11 @@ Vue.directive("swipe", {
       // mc.get("pan").set({ direction: Hammer.DIRECTION_HORIZONTAL });
       mc.on("swipe", binding.value);
     }
-  }
+  },
 });
 Vue.use(VueTippy);
 Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(App)
+  render: h => h(App),
 }).$mount("#app");

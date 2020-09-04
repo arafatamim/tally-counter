@@ -1,9 +1,0 @@
-{
-  "tabWidth": 2,
-  "useTabs": false,
-  "semi": true,
-  "htmlWhitespaceSensitivity": "css",
-  "printWidth": 80,
-  "proseWrap": "always",
-  "trailingComma": "es5"
-}

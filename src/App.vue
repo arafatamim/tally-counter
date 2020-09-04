@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <Header />
+    <!-- <Container> -->
     <Container tag="transition-group" name="list">
       <Counter
+        ref="counter"
         v-for="(counter, i) in counters"
         :cName="counter.name"
         :cVal="counter.value"
@@ -13,7 +15,11 @@
         @set-value="setCValue($event, counter)"
         @del-counter="deleteCounter(i)"
       />
-      <NewCounter @add-new-counter="newCounter()" key="new_counter" />
+      <NewCounter
+        ref="newCounter"
+        @add-new-counter="newCounter()"
+        key="new_counter"
+      />
     </Container>
   </div>
 </template>
@@ -23,7 +29,7 @@ import Header from "@/components/Header.vue";
 import Container from "@/components/Container.vue";
 import Counter from "@/components/Counter.vue";
 import NewCounter from "@/components/NewCounter.vue";
-import nanoid from "nanoid";
+import { nanoid } from "nanoid";
 
 export default {
   components: {
@@ -53,6 +59,7 @@ export default {
         "Avocados",
       ];
       var randomItem = itemList[Math.floor(Math.random() * itemList.length)];
+
       this.counters.push({
         _id: nanoid(4),
         name: randomItem,
@@ -96,7 +103,7 @@ body {
 }
 
 .list-enter-active,
-// .list-leave-active,
+.list-leave-active,
 .list-move {
   transition: 300ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
   transition-property: opacity, transform;
@@ -113,21 +120,23 @@ body {
 }
 
 .list-leave-active {
-  position: absolute;
-  width: calc(100% - 40px);
+  opacity: 0;
+  // position: absolute;
+  // width: calc(100% - 40px);
 }
 
 .list-leave-to {
-  position: absolute;
-  opacity: 0;
-  // transform: scaleY(0);
-  transform: translateX(30px);
-  transform-origin: center top;
+  // position: absolute;
+  // opacity: 0;
+
+  transform: scaleY(0);
+  // transform: translateX(30px);
+  // transform-origin: center top;
 }
-// .list-enter-active,
-// .list-leave-active {
-//     transition: all 1s;
-// }
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.2s;
+}
 // .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
 //     opacity: 0;
 //     transform: translateY(30px);
