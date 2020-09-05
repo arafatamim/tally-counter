@@ -11,9 +11,11 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { TippyComponent } from "vue-tippy";
 
 library.add(faPlusSquare, faMinusSquare, faQuestionCircle, faTrashAlt);
 
+Vue.component("tippy", TippyComponent);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.directive("swipe", {
   bind: function(el, binding) {

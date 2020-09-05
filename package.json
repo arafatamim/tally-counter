@@ -15,7 +15,8 @@
     "nanoid": "^3.1.12",
     "normalize.css": "^8.0.1",
     "register-service-worker": "^1.7.1",
-    "vue": "^2.6.12"
+    "vue": "^2.6.12",
+    "vue-tippy": "^4.7.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.4",
