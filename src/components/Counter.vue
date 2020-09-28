@@ -126,16 +126,36 @@ export default {
     background: transparent;
     color: #ddd;
     border: none;
+    border-radius: 3px;
     text-align: center;
     width: 100px;
+    outline: none;
+    box-sizing: border-box;
+    &:focus {
+      background: lighten($bg-colour, 15%);
+    }
+    &::selection {
+      background: $accent-colour;
+      color: $fg-colour;
+    }
   }
   .value {
     background: transparent;
     color: #ddd;
     border: none;
+    border-radius: 3px;
     text-align: center;
     width: 100px;
     font-size: 16pt;
+    outline: none;
+    box-sizing: border-box;
+    &:focus {
+      background: lighten($bg-colour, 15%);
+    }
+    &::selection {
+      background: $accent-colour;
+      color: $fg-colour;
+    }
   }
 }
 .actions {
