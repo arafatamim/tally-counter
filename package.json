@@ -10,26 +10,25 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
-    "@fortawesome/vue-fontawesome": "^2.0.0",
-    "hammerjs": "^2.0.8",
+    "@fortawesome/vue-fontawesome": "^3.0.0-1",
     "nanoid": "^3.1.12",
     "normalize.css": "^8.0.1",
     "register-service-worker": "^1.7.1",
-    "vue": "^2.6.12",
+    "vue": "^3.0.0",
     "vue-tippy": "^4.7.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.5.4",
-    "@vue/cli-plugin-eslint": "^4.5.4",
-    "@vue/cli-plugin-pwa": "^4.5.4",
-    "@vue/cli-service": "^4.5.4",
+    "@vue/cli-plugin-babel": "^4.5.6",
+    "@vue/cli-plugin-eslint": "^4.5.6",
+    "@vue/cli-plugin-pwa": "^4.5.6",
+    "@vue/cli-service": "^4.5.6",
+    "@vue/compiler-sfc": "^3.0.0-beta.1",
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.8.1",
+    "eslint": "^7.9.0",
     "eslint-plugin-prettier": "3.1.4",
-    "eslint-plugin-vue": "^6.2.2",
+    "eslint-plugin-vue": "^7.0.0-alpha.0",
     "node-sass": "^4.14.1",
-    "sass-loader": "^10.0.2",
-    "vue-template-compiler": "^2.6.12"
+    "sass-loader": "^10.0.2"
   }
 }

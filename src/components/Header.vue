@@ -1,42 +1,60 @@
 <template>
-  <div class="titleBar">
+  <div class="title-bar">
     <div id="dummy"></div>
     <div id="title">{{ name }}</div>
-    <tippy arrow interactive="true" duration="150" trigger="click">
-      <template v-slot:trigger>
+    <font-awesome-icon
+      id="icon"
+      @click="togglePopup"
+      :icon="['far', 'question-circle']"
+    ></font-awesome-icon>
+
+    <transition name="popup"
+      ><div id="info" v-show="showPopup">
         <font-awesome-icon
-          id="icon"
-          :icon="['far', 'question-circle']"
+          @click="togglePopup"
+          id="close"
+          :icon="['far', 'times-circle']"
         ></font-awesome-icon>
-      </template>
-      - Swipe to delete item on mobile
-      <br />- Tap/click on the item name or value to edit it manually
-      <br />
-      <br />Simple and handy tally counter <br />Made with ❤️ by Tamim Arafat
-      <br />
-      <a href="https://github.com/arafatamim/tally-counter" target="_blank"
-        >Source on GitHub</a
-      >
-      <br />
-      <br />
-      <a href="https://ko-fi.com/Q5Q1TLM1" target="_blank">
-        <img
-          height="36"
-          style="border: 0px; height: 36px"
-          src="../assets/kofi3.png"
-          border="0"
-          alt="Buy Me a Coffee at ko-fi.com"
-        />
-      </a>
-    </tippy>
+
+        - Swipe to delete item on mobile
+        <br />- Tap/click on the item name or value<br />
+        to edit it manually
+        <br />
+        <br />Simple and handy tally counter <br />Made with ❤️ by Tamim Arafat
+        <br />
+        <a href="https://github.com/arafatamim/tally-counter" target="_blank"
+          >Source on GitHub</a
+        >
+        <br />
+        <br />
+        <a href="https://ko-fi.com/Q5Q1TLM1" target="_blank">
+          <img
+            height="36"
+            style="border: 0px; height: 36px"
+            src="../assets/kofi3.png"
+            border="0"
+            alt="Buy Me a Coffee at ko-fi.com"
+          />
+        </a></div
+    ></transition>
   </div>
 </template>
 
 <script>
+import { ref } from "vue";
 export default {
-  data() {
+  setup() {
+    const name = "Tabs";
+    const showPopup = ref(false);
+
+    function togglePopup() {
+      showPopup.value = !showPopup.value;
+    }
+
     return {
-      name: "Tabs",
+      name,
+      showPopup,
+      togglePopup,
     };
   },
 };
@@ -45,7 +63,7 @@ export default {
 <style lang="scss" scoped>
 @import "@/styles/_base.scss";
 
-.titleBar {
+.title-bar {
   width: 100%;
   background-color: #222;
   position: sticky;
@@ -57,6 +75,7 @@ export default {
   box-sizing: border-box;
   padding: 10px;
   user-select: none;
+  z-index: 1;
 }
 #title {
   font-size: 12pt;
@@ -67,5 +86,35 @@ export default {
   &:active {
     color: #fff;
   }
+}
+#info {
+  transform-origin: top right;
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  z-index: 999999;
+  background: $bg-colour;
+  color: $fg-colour;
+  box-shadow: $box-shadow;
+  padding: 15px;
+  border-radius: 13px;
+  border: 1px solid #222;
+  a {
+    color: $fg-colour;
+    text-decoration-style: dashed;
+  }
+  #close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+}
+.popup-enter-active,
+.popup-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0, 0, 1); /* cubic-bezier(0.175, 0.885, 0.32, 1.275);*/
+}
+.popup-enter-from, .popup-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  transform: scale(0);
+  opacity: 0;
 }
 </style>

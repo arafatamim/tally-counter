@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="newcounter" @click="addCounter()">
+    <div class="newcounter" @click="addCounter">
       <font-awesome-icon
         class="addIcon"
         :icon="['far', 'plus-square']"
@@ -11,17 +11,15 @@
 
 <script>
 export default {
-  data() {
-    return {
-      name: null,
-      value: null,
-    };
-  },
-  methods: {
-    addCounter() {
-      this.$emit("add-new-counter");
+  setup(_, { emit }) {
+    function addCounter() {
+      emit("add-new-counter");
       document.getElementsByClassName("newcounter")[0].scrollIntoView();
-    },
+    }
+
+    return {
+      addCounter,
+    };
   },
 };
 </script>

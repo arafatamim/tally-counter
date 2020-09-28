@@ -1,33 +1,50 @@
-import Vue from "vue";
+import { createApp } from "vue";
 import App from "./App.vue";
 import "./registerServiceWorker";
 import "normalize.css";
-import Hammer from "hammerjs";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faPlusSquare,
   faMinusSquare,
   faQuestionCircle,
   faTrashAlt,
+  faTimesCircle,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { TippyComponent } from "vue-tippy";
 
-library.add(faPlusSquare, faMinusSquare, faQuestionCircle, faTrashAlt);
+library.add(
+  faPlusSquare,
+  faMinusSquare,
+  faQuestionCircle,
+  faTrashAlt,
+  faTimesCircle
+);
 
-Vue.component("tippy", TippyComponent);
-Vue.component("font-awesome-icon", FontAwesomeIcon);
-Vue.directive("swipe", {
-  bind: function(el, binding) {
-    if (typeof binding.value === "function") {
-      const mc = new Hammer(el);
-      // mc.get("pan").set({ direction: Hammer.DIRECTION_HORIZONTAL });
-      mc.on("swipe", binding.value);
-    }
-  },
-});
-Vue.config.productionTip = false;
+// Vue.component("tippy", TippyComponent);
+// Vue.component("font-awesome-icon", FontAwesomeIcon);
+// Vue.directive("swipe", {
+//   bind: function(el, binding) {
+//     if (typeof binding.value === "function") {
+//       const mc = new Hammer(el);
+//       // mc.get("pan").set({ direction: Hammer.DIRECTION_HORIZONTAL });
+//       mc.on("swipe", binding.value);
+//     }
+//   },
+// });
 
-new Vue({
-  render: h => h(App),
-}).$mount("#app");
+createApp(App)
+  .component("font-awesome-icon", FontAwesomeIcon)
+  // .directive("click-outside", {
+  //   mounted(el, binding, vnode) {
+  //     el.clickOutsideEvent = function(event) {
+  //       if (!(el == event.target || el.contains(event.target))) {
+  //         vnode.context[binding.expression](event);
+  //       }
+  //     };
+  //     document.body.addEventListener("click", el.clickOutsideEvent);
+  //   },
+  //   unmounted(el) {
+  //     document.body.removeEventListener("click", el.clickOutsideEvent);
+  //   },
+  // })
+  .mount("#app");

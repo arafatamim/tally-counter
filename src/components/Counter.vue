@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="counter" v-swipe="deleteCounter" ref="counter" name="showTip">
+    <div class="counter" ref="counter" name="showTip">
       <div
         class="del-icon"
         @click="deleteCounter"
@@ -21,7 +21,13 @@
           placeholder="Something?"
           v-model="name"
         />
-        <input class="value" onfocus="this.select()" v-model="value" />
+        <input
+          class="value"
+          type="number"
+          :min="0"
+          onfocus="this.select()"
+          v-model="value"
+        />
       </div>
       <div class="third">
         <button class="actions" @click="$emit('inc-counter')">
@@ -33,30 +39,33 @@
 </template>
 
 <script>
+import { computed, toRefs } from "vue";
 export default {
-  props: ["cName", "cVal"],
-  computed: {
-    name: {
-      get() {
-        return this.cName;
-      },
-      set(newValue) {
-        this.$emit("set-name", newValue);
-      },
-    },
-    value: {
-      get() {
-        return this.cVal;
-      },
-      set(newValue) {
-        this.$emit("set-value", newValue);
-      },
-    },
+  props: {
+    cName: String,
+    cVal: Number,
   },
-  methods: {
-    deleteCounter() {
-      this.$emit("del-counter");
-    },
+  setup(props, { emit }) {
+    const { cName, cVal } = toRefs(props);
+
+    const name = computed({
+      get: () => cName.value,
+      set: newVal => emit("set-name", newVal),
+    });
+    const value = computed({
+      get: () => cVal.value,
+      set: newVal => emit("set-value", newVal),
+    });
+
+    function deleteCounter() {
+      emit("del-counter");
+    }
+
+    return {
+      name,
+      value,
+      deleteCounter,
+    };
   },
 };
 </script>
@@ -65,6 +74,7 @@ export default {
 @import "@/styles/_base.scss";
 
 .counter {
+  z-index: 0;
   background-color: #444;
   border-radius: 13px;
   border: 1px solid #222;
@@ -143,6 +153,17 @@ export default {
   &:focus {
     outline: none;
   }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
 }
 @media (hover: hover) {
   .actions {
