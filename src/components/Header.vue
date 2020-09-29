@@ -8,14 +8,16 @@
       :icon="['far', 'question-circle']"
     ></font-awesome-icon>
 
-    <transition name="popup"
-      ><div id="info" v-show="showPopup">
-        <font-awesome-icon
-          @click="togglePopup"
-          id="close"
-          :icon="['far', 'times-circle']"
-        ></font-awesome-icon>
-
+    <transition name="popup">
+      <modal
+        key="popup_modal"
+        closeButton
+        @close="togglePopup"
+        :fixed="false"
+        top="5px"
+        right="5px"
+        v-show="showPopup"
+      >
         - Swipe to delete item on mobile
         <br />- Tap/click on the item name or value<br />
         to edit it manually
@@ -35,14 +37,19 @@
             border="0"
             alt="Buy Me a Coffee at ko-fi.com"
           />
-        </a></div
-    ></transition>
+        </a>
+      </modal>
+    </transition>
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
+import Modal from "./Modal.vue";
 export default {
+  components: {
+    Modal,
+  },
   setup() {
     const name = "Tabs";
     const showPopup = ref(false);

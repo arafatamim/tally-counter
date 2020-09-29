@@ -14,7 +14,6 @@ export default {
   setup(_, { emit }) {
     function addCounter() {
       emit("add-new-counter");
-      document.getElementsByClassName("newcounter")[0].scrollIntoView();
     }
 
     return {

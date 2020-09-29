@@ -165,13 +165,13 @@ export default {
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  transition: background-color 0.1s;
+  transition: all 0.1s;
+  outline: none;
   &:active {
     background-color: #666;
-    outline: none;
   }
   &:focus {
-    outline: none;
+    border: lighten($bg-colour, 15%) dashed 2px;
   }
 }
 

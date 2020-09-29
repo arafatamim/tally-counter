@@ -6,6 +6,21 @@ $fg-colour: #eee;
 $accent-colour: burlywood;
 $box-shadow: 1px 1px 10px #222;
 
+button {
+  color: $accent-colour;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  transition: all 0.1s;
+  outline: none;
+  &:active {
+    background-color: #666;
+  }
+  &:focus {
+    border: lighten($bg-colour, 15%) dashed 2px;
+  }
+}
+
 .tippy-tooltip {
   background-color: #444;
   font-family: $base-font;
