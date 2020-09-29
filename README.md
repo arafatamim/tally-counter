@@ -4,6 +4,10 @@
 
 Simple tally counter which you can save as an app (PWA).
 
+<img src="https://github.com/arafatamim/tally-counter/raw/master/src/assets/screenshot.png" alt="screenshot">
+
+---
+
 ## Project setup (for developers)
 
 ```
@@ -15,22 +19,6 @@ npm install
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-
-```
-npm run build
-```
-
-### Lints and fixes files
-
-```
-npm run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## License
 
