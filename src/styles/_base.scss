@@ -20,6 +20,12 @@ button {
     border: lighten($bg-colour, 15%) dashed 2px;
   }
 }
+code {
+  background: lighten($bg-colour, 15%);
+  border-radius: 4px;
+  padding: 4px;
+  line-height: 1.75em;
+}
 
 .tippy-tooltip {
   background-color: #444;

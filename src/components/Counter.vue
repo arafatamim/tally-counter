@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="counter" ref="counter" name="showTip">
+    <div class="counter" :class="{ selected }" ref="counter" name="showTip">
       <div
         class="del-icon"
         @click="deleteCounter"
@@ -44,6 +44,7 @@ export default {
   props: {
     cName: String,
     cVal: Number,
+    selected: Boolean,
   },
   setup(props, { emit }) {
     const { cName, cVal } = toRefs(props);
@@ -87,9 +88,14 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  transition: all 0.2s;
   &:hover > .del-icon {
     opacity: 1;
   }
+}
+.selected {
+  background-color: #4b4b4b;
+  box-shadow: 5px 5px 10px #222222aa;
 }
 
 .del-icon {
@@ -174,7 +180,6 @@ export default {
     border: lighten($bg-colour, 15%) dashed 2px;
   }
 }
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   /* display: none; <- Crashes Chrome on hover */

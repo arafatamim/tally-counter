@@ -4,7 +4,7 @@
 
 Simple tally counter which you can save as an app (PWA).
 
-<img src="https://github.com/arafatamim/tally-counter/raw/master/src/assets/screenshot.png" alt="screenshot">
+<img src="https://github.com/arafatamim/tally-counter/raw/master/src/assets/screenshot.png" alt="screenshot" width="250px">
 
 ---
 

@@ -19,6 +19,7 @@
     "vue"
   ],
   "rules": {
-    "prettier/prettier": "warn"
+    "prettier/prettier": "off",
+    "vue/no-multiple-template-root": "off"
   }
 }

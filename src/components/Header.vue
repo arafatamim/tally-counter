@@ -21,8 +21,20 @@
         - Swipe to delete item on mobile
         <br />- Tap/click on the item name or value<br />
         to edit it manually
-        <br />
-        <br />Simple and handy tally counter <br />Made with ❤️ by Tamim Arafat
+        <p>
+          <strong>Shortcuts</strong><br />
+          <code>Enter</code>
+          - Add new counter
+          <br />
+          <code>&larr;&uarr;&rarr;&darr;</code> - Select counter
+          <br />
+          <code>Delete</code>
+          - Delete counter
+          <br />
+          <code>+</code>/<code>-</code>
+          - Increase/decrease counter
+        </p>
+        Simple and handy tally counter <br />Made with ❤️ by Tamim Arafat
         <br />
         <a href="https://github.com/arafatamim/tally-counter" target="_blank"
           >Source on GitHub</a

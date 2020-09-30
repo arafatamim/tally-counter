@@ -1,51 +1,50 @@
 <template>
-  <div id="app">
-    <Header />
-    <Container>
-      <transition-group name="list" @before-leave="beforeLeave">
-        <Counter
-          ref="counterRef"
-          v-for="counter in counters"
-          :cName="counter.name"
-          v-swipe="e => onSwipe(e, counter.id)"
-          :cVal="counter.value"
-          :key="counter.id"
-          @inc-counter="counter.value++"
-          @dec-counter="counter.value > 0 && counter.value--"
-          @set-name="setCName($event, counter)"
-          @set-value="setCValue($event, counter)"
-          @del-counter="() => deleteCounter(counter.id)"
-        />
-        <NewCounter
-          ref="newCounter"
-          @add-new-counter="addNewCounter"
-          key="new_counter"
-        />
-        <div
-          id="bottom-padding"
-          :style="{ height: '70px' }"
-          key="bottom_padding"
-        ></div>
-      </transition-group>
-    </Container>
-    <transition name="scale">
-      <Modal
-        ref="modal"
-        :closeButton="false"
-        :fixed="true"
-        right="20px"
-        bottom="20px"
-        origin="bottom right"
-        v-if="totalCounterValue > 0 || counters.length > 1"
-        :enableExpanded="counters.length > 1"
-      >
-        Total value: {{ totalCounterValue }}
-        <template v-slot:expanded>
-          Number of counters: {{ counters.length }}
-        </template>
-      </Modal>
-    </transition>
-  </div>
+  <Header />
+  <Container>
+    <transition-group name="list" @before-leave="beforeLeave">
+      <Counter
+        ref="counterRef"
+        v-for="(counter, i) in counters"
+        :cName="counter.name"
+        v-swipe="e => onSwipe(e, counter.id)"
+        :cVal="counter.value"
+        :key="counter.id"
+        @inc-counter="() => increaseCounter(i)"
+        @dec-counter="() => decreaseCounter(i)"
+        @set-name="setCName($event, counter)"
+        @set-value="setCValue($event, counter)"
+        @del-counter="() => deleteCounter(counter.id)"
+        :selected="selectMode && selectedCounter === i"
+      />
+      <NewCounter
+        ref="newCounter"
+        @add-new-counter="addNewCounter"
+        key="new_counter"
+      />
+      <div
+        id="bottom-padding"
+        :style="{ height: '70px' }"
+        key="bottom_padding"
+      ></div>
+    </transition-group>
+  </Container>
+  <transition name="scale">
+    <Modal
+      ref="modal"
+      :closeButton="false"
+      :fixed="true"
+      right="20px"
+      bottom="20px"
+      origin="bottom right"
+      v-if="totalCounterValue > 0 || counters.length > 1"
+      :enableExpanded="counters.length > 1"
+    >
+      Total value: {{ totalCounterValue }}
+      <template v-slot:expanded>
+        Number of counters: {{ counters.length }}
+      </template>
+    </Modal>
+  </transition>
 </template>
 
 <script>
@@ -57,6 +56,14 @@ import NewCounter from "@/components/NewCounter.vue";
 import Modal from "@/components/Modal.vue";
 import { nanoid } from "nanoid";
 
+function getWrapperColumns() {
+  return parseInt(
+    window
+      .getComputedStyle(document.getElementsByClassName("wrapper")[0])
+      .getPropertyValue("--colNum")
+  );
+}
+
 export default {
   components: {
     Header,
@@ -67,6 +74,8 @@ export default {
   },
   setup() {
     const counters = ref([]);
+    const selectMode = ref(false);
+    const selectedCounter = ref(0);
 
     const totalCounterValue = computed(() =>
       counters.value.reduce((prev, current) => {
@@ -74,11 +83,93 @@ export default {
       }, 0)
     );
 
+    let timeout;
+    function toggleSelectMode() {
+      clearTimeout(timeout);
+      if (selectMode.value === false) {
+        selectMode.value = true;
+        return false;
+      }
+      timeout = setTimeout(function() {
+        selectMode.value = false;
+      }, 2000);
+      return true;
+    }
+
+    function keyboardListener(e) {
+      console.log("Selected: " + selectedCounter.value);
+      console.log("counter Length: " + counters.value.length);
+      if (e.key === "ArrowRight") {
+        // If selectMode is not enabled,
+        // do not change selected item
+        if (!toggleSelectMode()) return;
+
+        if (
+          counters.value.length !== 0 &&
+          selectedCounter.value !== counters.value.length - 1
+        )
+          selectedCounter.value += 1;
+      }
+
+      if (e.key === "ArrowLeft") {
+        if (!toggleSelectMode()) return;
+
+        if (counters.value.length !== 0 && selectedCounter.value !== 0)
+          selectedCounter.value -= 1;
+      }
+
+      if (e.key === "ArrowDown") {
+        if (!toggleSelectMode()) return;
+
+        if (
+          counters.value.length > 0 &&
+          selectedCounter.value < counters.value.length - 1
+        ) {
+          selectedCounter.value += getWrapperColumns();
+        }
+      }
+
+      if (e.key === "ArrowUp") {
+        if (!toggleSelectMode()) return;
+
+        if (counters.value.length > 0 && selectedCounter.value > 0)
+          selectedCounter.value -= getWrapperColumns();
+      }
+
+      if (e.key === "Enter") {
+        addNewCounter();
+      }
+      if (e.key === "Delete") {
+        if (!toggleSelectMode()) return;
+        if (
+          selectedCounter.value === counters.value.length - 1 &&
+          counters.value.length != 1
+        ) {
+          selectedCounter.value -= 1;
+        }
+        deleteCounter(counters.value[selectedCounter.value].id);
+      }
+
+      if (e.key === "+") {
+        if (!toggleSelectMode()) return;
+        increaseCounter(selectedCounter.value);
+      }
+      if (e.key === "-") {
+        if (!toggleSelectMode()) return;
+        decreaseCounter(selectedCounter.value);
+      }
+    }
+
     onMounted(() => {
       if (localStorage.getItem("items")) {
         counters.value = JSON.parse(localStorage.getItem("items"));
       }
+      document.addEventListener("keyup", keyboardListener);
     });
+    onUnmounted(() => {
+      document.removeEventListener("keyup", keyboardListener);
+    });
+
     watch(
       counters,
       () => {
@@ -119,6 +210,13 @@ export default {
       counters.value = counters.value.filter(counter => counter.id !== id);
     }
 
+    function increaseCounter(index) {
+      counters.value[index].value += 1;
+    }
+    function decreaseCounter(index) {
+      if (counters.value[index].value > 0) counters.value[index].value -= 1;
+    }
+
     function setCName(payload, item) {
       item.name = payload;
     }
@@ -149,10 +247,14 @@ export default {
       totalCounterValue,
       addNewCounter,
       deleteCounter,
+      increaseCounter,
+      decreaseCounter,
       setCName,
       setCValue,
       beforeLeave,
       onSwipe,
+      selectMode,
+      selectedCounter,
     };
   },
 };
