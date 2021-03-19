@@ -6,7 +6,7 @@
         ref="counterRef"
         v-for="(counter, i) in counters"
         :cName="counter.name"
-        v-swipe="e => onSwipe(e, counter.id)"
+        v-swipe="(e) => onSwipe(e, counter.id)"
         :cVal="counter.value"
         :key="counter.id"
         @inc-counter="() => increaseCounter(i)"
@@ -41,19 +41,31 @@
     >
       Total value: {{ totalCounterValue }}
       <template v-slot:expanded>
-        Number of counters: {{ counters.length }}
+        <div>Number of counters: {{ counters.length }}</div>
+        <div class="bottom-tools">
+          <button @click="removeAllCounters" aria-label="Remove All Counters">
+            Remove all counters
+          </button>
+          <button
+            @click="resetAllCounters"
+            v-if="totalCounterValue !== 0"
+            aria-label="Reset All Counters"
+          >
+            Reset all counters
+          </button>
+        </div>
       </template>
     </Modal>
   </transition>
 </template>
 
 <script>
-import { computed, onMounted, onUnmounted, reactive, ref, watch } from "vue";
-import Header from "@/components/Header.vue";
-import Container from "@/components/Container.vue";
-import Counter from "@/components/Counter.vue";
-import NewCounter from "@/components/NewCounter.vue";
-import Modal from "@/components/Modal.vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import Header from "/@/components/Header.vue";
+import Container from "/@/components/Container.vue";
+import Counter from "/@/components/Counter.vue";
+import NewCounter from "/@/components/NewCounter.vue";
+import Modal from "/@/components/Modal.vue";
 import { nanoid } from "nanoid";
 
 function getWrapperColumns() {
@@ -73,6 +85,14 @@ export default {
     Modal,
   },
   setup() {
+    /**
+     * @typedef {Object} CounterObject
+     * @property {string} id
+     * @property {number} value
+     * @property {string} name
+     */
+
+    /** @type {import('vue').Ref<CounterObject[]>} */
     const counters = ref([]);
     const selectMode = ref(false);
     const selectedCounter = ref(0);
@@ -90,15 +110,13 @@ export default {
         selectMode.value = true;
         return false;
       }
-      timeout = setTimeout(function() {
+      timeout = setTimeout(function () {
         selectMode.value = false;
       }, 2000);
       return true;
     }
 
     function keyboardListener(e) {
-      console.log("Selected: " + selectedCounter.value);
-      console.log("counter Length: " + counters.value.length);
       if (e.key === "ArrowRight") {
         // If selectMode is not enabled,
         // do not change selected item
@@ -197,7 +215,7 @@ export default {
         value: 0,
       });
 
-      setTimeout(function() {
+      setTimeout(function () {
         window.scrollTo({
           top: document.body.scrollHeight,
           behavior: "smooth",
@@ -207,14 +225,24 @@ export default {
 
     function deleteCounter(id) {
       // counters.value.splice(index, 1);
-      counters.value = counters.value.filter(counter => counter.id !== id);
+      counters.value = counters.value.filter((counter) => counter.id !== id);
     }
 
     function increaseCounter(index) {
-      counters.value[index].value += 1;
+      const currentCounter = counters.value[index];
+      currentCounter.value += 1;
     }
     function decreaseCounter(index) {
       if (counters.value[index].value > 0) counters.value[index].value -= 1;
+    }
+
+    function removeAllCounters() {
+      counters.value = [];
+    }
+    function resetAllCounters() {
+      for (const counter of counters.value) {
+        counter.value = 0;
+      }
     }
 
     function setCName(payload, item) {
@@ -249,6 +277,8 @@ export default {
       deleteCounter,
       increaseCounter,
       decreaseCounter,
+      removeAllCounters,
+      resetAllCounters,
       setCName,
       setCValue,
       beforeLeave,
@@ -261,7 +291,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/styles/_base.scss";
+@import "./styles/_base.scss";
 
 body {
   background-color: $bg-colour;
