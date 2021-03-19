@@ -4,11 +4,15 @@
       <div
         class="del-icon"
         @click="deleteCounter"
-        title="Delete"
+        title="Remove counter"
         role="button"
       ></div>
       <div class="first">
-        <button class="actions" @click="$emit('dec-counter')">
+        <button
+          class="actions"
+          aria-label="Decrement Counter"
+          @click="$emit('dec-counter')"
+        >
           <font-awesome-icon
             :icon="['far', 'minus-square']"
           ></font-awesome-icon>
@@ -20,17 +24,25 @@
           onfocus="this.select()"
           placeholder="Something?"
           v-model="name"
+          aria-label="Counter Name"
         />
         <input
           class="value"
           type="number"
           :min="0"
+          autocomplete="off"
           onfocus="this.select()"
+          placeholder="0"
           v-model="value"
+          aria-label="Counter Value"
         />
       </div>
       <div class="third">
-        <button class="actions" @click="$emit('inc-counter')">
+        <button
+          class="actions"
+          aria-label="Increment Counter"
+          @click="$emit('inc-counter')"
+        >
           <font-awesome-icon :icon="['far', 'plus-square']"></font-awesome-icon>
         </button>
       </div>
@@ -51,11 +63,11 @@ export default {
 
     const name = computed({
       get: () => cName.value,
-      set: newVal => emit("set-name", newVal),
+      set: (newVal) => emit("set-name", newVal),
     });
     const value = computed({
       get: () => cVal.value,
-      set: newVal => emit("set-value", newVal),
+      set: (newVal) => emit("set-value", Number(newVal)),
     });
 
     function deleteCounter() {
@@ -72,7 +84,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/styles/_base.scss";
+@import "../src/styles/_base.scss";
 
 .counter {
   z-index: 0;
@@ -103,18 +115,18 @@ export default {
   right: 8px;
   border-radius: 50%;
   position: absolute;
-  background: #aaa;
+  //   background: #aaa;
   vertical-align: middle;
-  width: 7px;
-  height: 7px;
+  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLXgiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjYWFhYWFhIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPiAgPHBhdGggc3Ryb2tlPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+ICA8bGluZSB4MT0iMTgiIHkxPSI2IiB4Mj0iNiIgeTI9IjE4IiAvPiAgPGxpbmUgeDE9IjYiIHkxPSI2IiB4Mj0iMTgiIHkyPSIxOCIgLz48L3N2Zz4=")
+    center no-repeat;
+  width: 13px;
+  height: 13px;
   cursor: pointer;
   opacity: 0;
   transition: 0.2s transform, 0.2s opacity;
   &:hover {
-    transform: scale(2);
+    transform: scale(1.2);
     // background: uri('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#aaaaaa" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>') center no-repeat;
-    background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLXgiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlPSIjYWFhYWFhIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPiAgPHBhdGggc3Ryb2tlPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+ICA8bGluZSB4MT0iMTgiIHkxPSI2IiB4Mj0iNiIgeTI9IjE4IiAvPiAgPGxpbmUgeDE9IjYiIHkxPSI2IiB4Mj0iMTgiIHkyPSIxOCIgLz48L3N2Zz4=")
-      center no-repeat;
   }
 }
 

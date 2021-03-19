@@ -1,8 +1,12 @@
 <template>
-  <div class="title-bar">
+  <header class="title-bar">
     <div id="dummy"></div>
     <div id="title">{{ name }}</div>
     <font-awesome-icon
+      role="button"
+      aria-hidden="false"
+      aria-label="Open Help Dialog"
+      title="Open Help Dialog"
       id="icon"
       @click="togglePopup"
       :icon="['far', 'question-circle']"
@@ -36,12 +40,19 @@
         </p>
         Simple and handy tally counter <br />Made with ❤️ by Tamim Arafat
         <br />
-        <a href="https://github.com/arafatamim/tally-counter" target="_blank"
+        <a
+          href="https://github.com/arafatamim/tally-counter"
+          rel="noopener"
+          target="_blank"
           >Source on GitHub</a
         >
         <br />
         <br />
-        <a href="https://ko-fi.com/Q5Q1TLM1" target="_blank">
+        <a
+          href="https://ko-fi.com/Q5Q1TLM1"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           <img
             height="36"
             style="border: 0px; height: 36px"
@@ -52,7 +63,7 @@
         </a>
       </modal>
     </transition>
-  </div>
+  </header>
 </template>
 
 <script>
@@ -80,7 +91,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/_base.scss";
+@import "../src/styles/_base.scss";
 
 .title-bar {
   width: 100%;

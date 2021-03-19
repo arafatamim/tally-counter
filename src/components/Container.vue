@@ -9,7 +9,7 @@ export default {
   props: {
     tag: {
       type: String,
-      default: "div",
+      default: "main",
     },
     name: {
       type: String,
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/_base.scss";
+@import "../src/styles/_base.scss";
 
 .wrapper {
   --colNum: 1;

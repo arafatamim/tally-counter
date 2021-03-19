@@ -12,13 +12,22 @@
     }"
   >
     <font-awesome-icon
+      role="button"
+      title="Close Help Dialog"
+      aria-label="Close Help Dialog"
+      aria-hidden="false"
       v-if="closeButton"
       @click="$emit('close')"
       class="close"
       :icon="['far', 'times-circle']"
     ></font-awesome-icon>
     <slot></slot>
-    <button v-if="enableExpanded" @click="toggleExpand" class="expand-button">
+    <button
+      v-if="enableExpanded"
+      @click="toggleExpand"
+      aria-label="Expand Options"
+      class="expand-button rounded"
+    >
       <svg
         v-if="expanded"
         width="16"
@@ -82,7 +91,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/styles/_base.scss";
+@import "../src/styles/_base.scss";
 
 .info {
   transform-origin: top right;

@@ -11,6 +11,7 @@
 
 <script>
 export default {
+  emits: ["add-new-counter"],
   setup(_, { emit }) {
     function addCounter() {
       emit("add-new-counter");
@@ -24,7 +25,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/styles/_base.scss";
+@import "../src/styles/_base.scss";
 
 .newcounter {
   background-color: transparent;

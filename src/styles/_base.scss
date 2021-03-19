@@ -8,11 +8,17 @@ $box-shadow: 1px 1px 10px #222;
 
 button {
   color: $accent-colour;
-  background: none;
-  border: none;
-  border-radius: 50%;
+  background: lighten($bg-colour, 7%);
+  border-radius: 5px;
+  border: 2px solid transparent;
   transition: all 0.1s;
   outline: none;
+  padding: 5px;
+  &.rounded {
+    background: none;
+    border-radius: 50%;
+    border: none;
+  }
   &:active {
     background-color: #666;
   }
@@ -27,20 +33,26 @@ code {
   line-height: 1.75em;
 }
 
-.tippy-tooltip {
-  background-color: #444;
-  font-family: $base-font;
-  padding: 15px;
-  a {
-    color: $fg-colour;
-    text-decoration-style: dashed;
-  }
+.bottom-tools {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+// .tippy-tooltip {
+//   background-color: #444;
+//   font-family: $base-font;
+//   padding: 15px;
+//   a {
+//     color: $fg-colour;
+//     text-decoration-style: dashed;
+//   }
 
-  user-select: none;
-}
-.tippy-popper[x-placement^="bottom"] .tippy-arrow {
-  border-bottom-color: #444;
-}
-.tippy-popper[x-placement^="top"] .tippy-arrow {
-  border-top-color: #444;
-}
+//   user-select: none;
+// }
+// .tippy-popper[x-placement^="bottom"] .tippy-arrow {
+//   border-bottom-color: #444;
+// }
+// .tippy-popper[x-placement^="top"] .tippy-arrow {
+//   border-top-color: #444;
+// }
