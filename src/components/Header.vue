@@ -74,7 +74,7 @@ export default {
     Modal,
   },
   setup() {
-    const name = "Tabs";
+    const name = "Tally";
     const showPopup = ref(false);
 
     function togglePopup() {
