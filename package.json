@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vite serve",
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "prod": "vite preview --port 8080"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",

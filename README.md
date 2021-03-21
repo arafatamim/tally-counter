@@ -14,11 +14,18 @@ Simple tally counter which you can save as an app (PWA).
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compile and hot-reload for development
 
 ```
 npm run serve
 ```
+
+### Compile and run for production
+
+```
+npm run prod
+```
+
 
 ## License
 
