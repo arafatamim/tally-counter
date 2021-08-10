@@ -9,6 +9,8 @@ export default defineConfig({
   plugins: [
     vue(volar.getVuePluginOptionsForVite()),
     VitePWA({
+      registerType: "autoUpdate",
+      injectRegister: "script",
       manifest,
     }),
   ],
