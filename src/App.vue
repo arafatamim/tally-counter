@@ -3,7 +3,6 @@
   <Container>
     <transition-group name="list" @before-leave="beforeLeave">
       <Counter
-        ref="counterRef"
         v-for="(counter, i) in counters"
         v-swipe="(e) => onSwipe(e, counter.id)"
         :counterName="counter.name"
@@ -16,11 +15,7 @@
         @set-value="setCounterValue($event, counter)"
         @del-counter="() => deleteCounter(counter.id)"
       />
-      <NewCounter
-        ref="newCounter"
-        @add-new-counter="addNewCounter"
-        key="new_counter"
-      />
+      <NewCounter @add-new-counter="addNewCounter" key="new_counter" />
       <div
         id="bottom-padding"
         :style="{ height: '70px' }"
@@ -30,7 +25,6 @@
   </Container>
   <transition name="scale">
     <Modal
-      ref="modal"
       :closeButton="false"
       :fixed="true"
       rightEdge="20px"
@@ -246,12 +240,15 @@ function setCounterValue(payload, item) {
 }
 
 function beforeLeave(el) {
-  const { marginLeft, marginTop, width, height } = window.getComputedStyle(el);
+  if (el != null) {
+    const { marginLeft, marginTop, width, height } =
+      window.getComputedStyle(el);
 
-  el.style.left = `${el.offsetLeft - parseFloat(marginLeft, 10)}px`;
-  el.style.top = `${el.offsetTop - parseFloat(marginTop, 10)}px`;
-  el.style.width = width;
-  el.style.height = height;
+    el.style.left = `${el.offsetLeft - parseFloat(marginLeft, 10)}px`;
+    el.style.top = `${el.offsetTop - parseFloat(marginTop, 10)}px`;
+    el.style.width = width;
+    el.style.height = height;
+  }
 }
 
 /**

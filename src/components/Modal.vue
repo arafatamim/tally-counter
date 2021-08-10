@@ -1,6 +1,5 @@
 <template>
   <div
-    ref="infoRef"
     key="modal"
     class="info"
     :style="{

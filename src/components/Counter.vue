@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="counter" :class="{ selected }" ref="counter" name="showTip">
+    <div class="counter" :class="{ selected }" name="showTip">
       <div
         class="del-icon"
         @click="deleteCounter"
