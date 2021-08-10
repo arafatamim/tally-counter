@@ -5,16 +5,16 @@
       <Counter
         ref="counterRef"
         v-for="(counter, i) in counters"
-        :cName="counter.name"
         v-swipe="(e) => onSwipe(e, counter.id)"
-        :cVal="counter.value"
+        :counterName="counter.name"
+        :counterValue="counter.value"
+        :selected="selectMode && selectedCounter === i"
         :key="counter.id"
         @inc-counter="() => increaseCounter(i)"
         @dec-counter="() => decreaseCounter(i)"
-        @set-name="setCName($event, counter)"
-        @set-value="setCValue($event, counter)"
+        @set-name="setCounterName($event, counter)"
+        @set-value="setCounterValue($event, counter)"
         @del-counter="() => deleteCounter(counter.id)"
-        :selected="selectMode && selectedCounter === i"
       />
       <NewCounter
         ref="newCounter"
@@ -33,8 +33,8 @@
       ref="modal"
       :closeButton="false"
       :fixed="true"
-      right="20px"
-      bottom="20px"
+      rightEdge="20px"
+      bottomEdge="20px"
       origin="bottom right"
       v-if="totalCounterValue > 0 || counters.length > 1"
       :enableExpanded="counters.length > 1"
@@ -59,7 +59,7 @@
   </transition>
 </template>
 
-<script>
+<script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import Header from "/@/components/Header.vue";
 import Container from "/@/components/Container.vue";
@@ -76,218 +76,209 @@ function getWrapperColumns() {
   );
 }
 
-export default {
-  components: {
-    Header,
-    Container,
-    Counter,
-    NewCounter,
-    Modal,
+/**
+ * @typedef {Object} CounterObject
+ * @property {string} id
+ * @property {number} value
+ * @property {string} name
+ */
+
+/** @type {import('vue').Ref<CounterObject[]>} */
+const counters = ref([]);
+const selectMode = ref(false);
+const selectedCounter = ref(0);
+
+const totalCounterValue = computed(() =>
+  counters.value.reduce((prev, current) => {
+    return prev + current.value;
+  }, 0)
+);
+
+/** @type {NodeJS.Timeout} */
+let selectModeTimeout;
+function toggleSelectMode() {
+  clearTimeout(selectModeTimeout);
+  if (selectMode.value === false) {
+    selectMode.value = true;
+    return false;
+  }
+  selectModeTimeout = setTimeout(function () {
+    selectMode.value = false;
+  }, 2000);
+  return true;
+}
+
+function keyboardListener(e) {
+  if (e.key === "ArrowRight") {
+    // If selectMode is not enabled,
+    // do not change selected item
+    if (!toggleSelectMode()) return;
+
+    if (
+      counters.value.length !== 0 &&
+      selectedCounter.value !== counters.value.length - 1
+    )
+      selectedCounter.value += 1;
+  }
+
+  if (e.key === "ArrowLeft") {
+    if (!toggleSelectMode()) return;
+    if (counters.value.length !== 0 && selectedCounter.value !== 0)
+      selectedCounter.value -= 1;
+  }
+
+  if (e.key === "ArrowDown") {
+    if (!toggleSelectMode()) return;
+
+    if (
+      counters.value.length > 0 &&
+      selectedCounter.value < counters.value.length - 1
+    ) {
+      selectedCounter.value += getWrapperColumns();
+    }
+  }
+
+  if (e.key === "ArrowUp") {
+    if (!toggleSelectMode()) return;
+
+    if (counters.value.length > 0 && selectedCounter.value > 0)
+      selectedCounter.value -= getWrapperColumns();
+  }
+
+  if (e.key === "Enter") {
+    addNewCounter();
+  }
+  if (e.key === "Delete") {
+    if (!toggleSelectMode()) return;
+    if (
+      selectedCounter.value === counters.value.length - 1 &&
+      counters.value.length != 1
+    ) {
+      selectedCounter.value -= 1;
+    }
+    deleteCounter(counters.value[selectedCounter.value].id);
+  }
+
+  if (e.key === "+") {
+    if (!toggleSelectMode()) return;
+    increaseCounter(selectedCounter.value);
+  }
+  if (e.key === "-") {
+    if (!toggleSelectMode()) return;
+    decreaseCounter(selectedCounter.value);
+  }
+}
+
+onMounted(() => {
+  if (localStorage.getItem("items")) {
+    counters.value = JSON.parse(localStorage.getItem("items"));
+  }
+  document.addEventListener("keyup", keyboardListener);
+});
+onUnmounted(() => {
+  document.removeEventListener("keyup", keyboardListener);
+});
+
+watch(
+  counters,
+  () => {
+    localStorage.setItem("items", JSON.stringify(counters.value));
   },
-  setup() {
-    /**
-     * @typedef {Object} CounterObject
-     * @property {string} id
-     * @property {number} value
-     * @property {string} name
-     */
+  { deep: true }
+);
 
-    /** @type {import('vue').Ref<CounterObject[]>} */
-    const counters = ref([]);
-    const selectMode = ref(false);
-    const selectedCounter = ref(0);
+function addNewCounter() {
+  const itemList = [
+    "Apples",
+    "Oranges",
+    "Bananas",
+    "Grapes",
+    "Limes",
+    "Peaches",
+    "Berries",
+    "Avocados",
+  ];
+  const randomItem = itemList[Math.floor(Math.random() * itemList.length)];
 
-    const totalCounterValue = computed(() =>
-      counters.value.reduce((prev, current) => {
-        return prev + current.value;
-      }, 0)
-    );
+  counters.value.push({
+    id: nanoid(4),
+    name: randomItem,
+    value: 0,
+  });
 
-    let timeout;
-    function toggleSelectMode() {
-      clearTimeout(timeout);
-      if (selectMode.value === false) {
-        selectMode.value = true;
-        return false;
-      }
-      timeout = setTimeout(function () {
-        selectMode.value = false;
-      }, 2000);
-      return true;
-    }
-
-    function keyboardListener(e) {
-      if (e.key === "ArrowRight") {
-        // If selectMode is not enabled,
-        // do not change selected item
-        if (!toggleSelectMode()) return;
-
-        if (
-          counters.value.length !== 0 &&
-          selectedCounter.value !== counters.value.length - 1
-        )
-          selectedCounter.value += 1;
-      }
-
-      if (e.key === "ArrowLeft") {
-        if (!toggleSelectMode()) return;
-
-        if (counters.value.length !== 0 && selectedCounter.value !== 0)
-          selectedCounter.value -= 1;
-      }
-
-      if (e.key === "ArrowDown") {
-        if (!toggleSelectMode()) return;
-
-        if (
-          counters.value.length > 0 &&
-          selectedCounter.value < counters.value.length - 1
-        ) {
-          selectedCounter.value += getWrapperColumns();
-        }
-      }
-
-      if (e.key === "ArrowUp") {
-        if (!toggleSelectMode()) return;
-
-        if (counters.value.length > 0 && selectedCounter.value > 0)
-          selectedCounter.value -= getWrapperColumns();
-      }
-
-      if (e.key === "Enter") {
-        addNewCounter();
-      }
-      if (e.key === "Delete") {
-        if (!toggleSelectMode()) return;
-        if (
-          selectedCounter.value === counters.value.length - 1 &&
-          counters.value.length != 1
-        ) {
-          selectedCounter.value -= 1;
-        }
-        deleteCounter(counters.value[selectedCounter.value].id);
-      }
-
-      if (e.key === "+") {
-        if (!toggleSelectMode()) return;
-        increaseCounter(selectedCounter.value);
-      }
-      if (e.key === "-") {
-        if (!toggleSelectMode()) return;
-        decreaseCounter(selectedCounter.value);
-      }
-    }
-
-    onMounted(() => {
-      if (localStorage.getItem("items")) {
-        counters.value = JSON.parse(localStorage.getItem("items"));
-      }
-      document.addEventListener("keyup", keyboardListener);
+  setTimeout(function () {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
     });
-    onUnmounted(() => {
-      document.removeEventListener("keyup", keyboardListener);
-    });
+  }, 100);
+}
 
-    watch(
-      counters,
-      () => {
-        localStorage.setItem("items", JSON.stringify(counters.value));
-      },
-      { deep: true }
-    );
+function deleteCounter(id) {
+  // counters.value.splice(index, 1);
+  counters.value = counters.value.filter((counter) => counter.id !== id);
+}
 
-    function addNewCounter() {
-      const itemList = [
-        "Apples",
-        "Oranges",
-        "Bananas",
-        "Grapes",
-        "Limes",
-        "Peaches",
-        "Berries",
-        "Avocados",
-      ];
-      const randomItem = itemList[Math.floor(Math.random() * itemList.length)];
+function increaseCounter(index) {
+  const currentCounter = counters.value[index];
+  currentCounter.value += 1;
+}
+function decreaseCounter(index) {
+  if (counters.value[index].value > 0) counters.value[index].value -= 1;
+}
 
-      counters.value.push({
-        id: nanoid(4),
-        name: randomItem,
-        value: 0,
-      });
+function removeAllCounters() {
+  counters.value = [];
+}
+function resetAllCounters() {
+  for (const counter of counters.value) {
+    counter.value = 0;
+  }
+}
 
-      setTimeout(function () {
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: "smooth",
-        });
-      }, 100);
-    }
+function setCounterName(payload, item) {
+  item.name = payload;
+}
+function setCounterValue(payload, item) {
+  if (typeof parseInt(payload) == "number") {
+    item.value = parseInt(payload);
+  }
+}
 
-    function deleteCounter(id) {
-      // counters.value.splice(index, 1);
-      counters.value = counters.value.filter((counter) => counter.id !== id);
-    }
+function beforeLeave(el) {
+  const { marginLeft, marginTop, width, height } = window.getComputedStyle(el);
 
-    function increaseCounter(index) {
-      const currentCounter = counters.value[index];
-      currentCounter.value += 1;
-    }
-    function decreaseCounter(index) {
-      if (counters.value[index].value > 0) counters.value[index].value -= 1;
-    }
+  el.style.left = `${el.offsetLeft - parseFloat(marginLeft, 10)}px`;
+  el.style.top = `${el.offsetTop - parseFloat(marginTop, 10)}px`;
+  el.style.width = width;
+  el.style.height = height;
+}
 
-    function removeAllCounters() {
-      counters.value = [];
-    }
-    function resetAllCounters() {
-      for (const counter of counters.value) {
-        counter.value = 0;
-      }
-    }
+/**
+ * @param _ {unknown}
+ * @param id {string}
+ */
+function onSwipe(_, id) {
+  // TODO: implement swipe animation
+  deleteCounter(id);
+}
 
-    function setCName(payload, item) {
-      item.name = payload;
-    }
-    function setCValue(payload, item) {
-      if (typeof parseInt(payload) == "number") {
-        item.value = parseInt(payload);
-      }
-    }
-
-    function beforeLeave(el) {
-      const { marginLeft, marginTop, width, height } = window.getComputedStyle(
-        el
-      );
-
-      el.style.left = `${el.offsetLeft - parseFloat(marginLeft, 10)}px`;
-      el.style.top = `${el.offsetTop - parseFloat(marginTop, 10)}px`;
-      el.style.width = width;
-      el.style.height = height;
-    }
-
-    function onSwipe(_, id) {
-      // TODO: implement swipe animation
-      deleteCounter(id);
-    }
-
-    return {
-      counters,
-      totalCounterValue,
-      addNewCounter,
-      deleteCounter,
-      increaseCounter,
-      decreaseCounter,
-      removeAllCounters,
-      resetAllCounters,
-      setCName,
-      setCValue,
-      beforeLeave,
-      onSwipe,
-      selectMode,
-      selectedCounter,
-    };
-  },
-};
+// return {
+//   counters,
+//   totalCounterValue,
+//   addNewCounter,
+//   deleteCounter,
+//   increaseCounter,
+//   decreaseCounter,
+//   removeAllCounters,
+//   resetAllCounters,
+//   setCName,
+//   setCValue,
+//   beforeLeave,
+//   onSwipe,
+//   selectMode,
+//   selectedCounter,
+// };
 </script>
 
 <style lang="scss">

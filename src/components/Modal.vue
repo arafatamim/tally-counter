@@ -5,9 +5,9 @@
     class="info"
     :style="{
       position: fixed ? 'fixed' : 'absolute',
-      top: top,
-      right: right,
-      bottom: bottom,
+      top: topEdge,
+      right: rightEdge,
+      bottom: bottomEdge,
       transformOrigin: origin,
     }"
   >
@@ -60,34 +60,24 @@
   </div>
 </template>
 
-<script>
-import { onMounted, ref } from "vue";
-export default {
-  name: "Modal",
-  props: {
-    closeButton: Boolean,
-    fixed: Boolean,
-    top: String,
-    right: String,
-    bottom: String,
-    origin: String,
-    enableExpanded: Boolean,
-  },
-  setup(props) {
-    const expanded = ref(false);
+<script setup>
+import { ref } from "vue";
 
-    function toggleExpand() {
-      expanded.value = !expanded.value;
-    }
+defineProps({
+  closeButton: Boolean,
+  fixed: Boolean,
+  topEdge: String,
+  rightEdge: String,
+  bottomEdge: String,
+  origin: String,
+  enableExpanded: Boolean,
+});
 
-    onMounted(() => {});
+const expanded = ref(false);
 
-    return {
-      expanded,
-      toggleExpand,
-    };
-  },
-};
+function toggleExpand() {
+  expanded.value = !expanded.value;
+}
 </script>
 
 <style lang="scss">

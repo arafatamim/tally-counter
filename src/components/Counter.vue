@@ -50,37 +50,29 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, toRefs } from "vue";
-export default {
-  props: {
-    cName: String,
-    cVal: Number,
-    selected: Boolean,
-  },
-  setup(props, { emit }) {
-    const { cName, cVal } = toRefs(props);
 
-    const name = computed({
-      get: () => cName.value,
-      set: (newVal) => emit("set-name", newVal),
-    });
-    const value = computed({
-      get: () => cVal.value,
-      set: (newVal) => emit("set-value", Number(newVal)),
-    });
+const props = defineProps({
+  counterName: String,
+  counterValue: Number,
+  selected: Boolean,
+});
+const emit = defineEmits(["set-name", "set-value", "del-counter"]);
+const { counterName, counterValue } = toRefs(props);
 
-    function deleteCounter() {
-      emit("del-counter");
-    }
+const name = computed({
+  get: () => counterName.value,
+  set: (newVal) => emit("set-name", newVal),
+});
+const value = computed({
+  get: () => counterValue.value,
+  set: (newVal) => emit("set-value", Number(newVal)),
+});
 
-    return {
-      name,
-      value,
-      deleteCounter,
-    };
-  },
-};
+function deleteCounter() {
+  emit("del-counter");
+}
 </script>
 
 <style lang="scss">
@@ -106,6 +98,7 @@ export default {
   }
 }
 .selected {
+  border: 1px solid $accent-colour;
   background-color: #4b4b4b;
   box-shadow: 5px 5px 10px #222222aa;
 }

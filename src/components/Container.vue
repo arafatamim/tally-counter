@@ -1,22 +1,17 @@
 <template>
-  <component :is="tag" :name="name" class="wrapper">
+  <component :is="tag" :name="nom" class="wrapper">
     <slot></slot>
   </component>
 </template>
 
-<script>
-export default {
-  props: {
-    tag: {
-      type: String,
-      default: "main",
-    },
-    name: {
-      type: String,
-      default: "",
-    },
+<script setup>
+defineProps({
+  tag: {
+    type: String,
+    default: "main",
   },
-};
+  nom: String,
+});
 </script>
 
 <style lang="scss" scoped>

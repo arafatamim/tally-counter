@@ -18,8 +18,8 @@
         closeButton
         @close="togglePopup"
         :fixed="false"
-        top="5px"
-        right="5px"
+        topEdge="5px"
+        rightEdge="5px"
         v-show="showPopup"
       >
         - Swipe to delete item on mobile
@@ -66,28 +66,16 @@
   </header>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 import Modal from "./Modal.vue";
-export default {
-  components: {
-    Modal,
-  },
-  setup() {
-    const name = "Tabs";
-    const showPopup = ref(false);
 
-    function togglePopup() {
-      showPopup.value = !showPopup.value;
-    }
+const name = "Tabs";
+const showPopup = ref(false);
 
-    return {
-      name,
-      showPopup,
-      togglePopup,
-    };
-  },
-};
+function togglePopup() {
+  showPopup.value = !showPopup.value;
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,33 +1,26 @@
 <template>
   <div>
-    <div class="newcounter" @click="addCounter">
+    <div class="new-counter" @click="addCounter">
       <font-awesome-icon
-        class="addIcon"
+        class="add-icon"
         :icon="['far', 'plus-square']"
       ></font-awesome-icon>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  emits: ["add-new-counter"],
-  setup(_, { emit }) {
-    function addCounter() {
-      emit("add-new-counter");
-    }
+<script setup>
+const emit = defineEmits(["add-new-counter"]);
 
-    return {
-      addCounter,
-    };
-  },
-};
+function addCounter() {
+  emit("add-new-counter");
+}
 </script>
 
 <style lang="scss">
 @import "../src/styles/_base.scss";
 
-.newcounter {
+.new-counter {
   background-color: transparent;
   border-radius: 15px;
   border: 5px dashed #555;
@@ -42,21 +35,21 @@ export default {
 
   &:active {
     border: 5px dashed #777;
-    .addIcon {
+    .add-icon {
       color: #777;
     }
   }
 }
-.addIcon {
+.add-icon {
   font-size: 25pt;
   color: #555;
   transition: color 0.1s;
 }
 @media (hover: hover) {
-  .newcounter {
+  .new-counter {
     &:hover {
       border: 5px dashed #666;
-      .addIcon {
+      .add-icon {
         color: #666;
       }
     }
