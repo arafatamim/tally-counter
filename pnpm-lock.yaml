@@ -5,6 +5,7 @@ specifiers:
   '@fortawesome/free-regular-svg-icons': ^5.15.4
   '@fortawesome/vue-fontawesome': ^3.0.0-4
   '@vitejs/plugin-vue': ^1.4.0
+  '@volar/experimental': ^0.26.14
   '@vue/compiler-sfc': ^3.2.1
   '@vue/eslint-config-prettier': ^6.0.0
   eslint: ^7.32.0
@@ -30,6 +31,7 @@ dependencies:
 
 devDependencies:
   '@vitejs/plugin-vue': 1.4.0_@vue+compiler-sfc@3.2.1
+  '@volar/experimental': 0.26.14_vue@3.2.1
   '@vue/compiler-sfc': 3.2.1
   '@vue/eslint-config-prettier': 6.0.0_7e05424a276b9ab2c184d09e69e49b9d
   eslint: 7.32.0
@@ -1192,6 +1194,14 @@ packages:
       '@vue/compiler-sfc': ^3.0.8
     dependencies:
       '@vue/compiler-sfc': 3.2.1
+    dev: true
+
+  /@volar/experimental/0.26.14_vue@3.2.1:
+    resolution: {integrity: sha512-Rw5Sp2nKrm4d9GJMObR0EGic14lra0zLTE1vWrx49Kq6Y50rmy6kV9Ptni55r4p1PEycrEIRryCNDqvFkJ37Hw==}
+    peerDependencies:
+      vue: '*'
+    dependencies:
+      vue: 3.2.1
     dev: true
 
   /@vue/compiler-core/3.2.1:

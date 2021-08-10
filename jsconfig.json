@@ -1,0 +1,15 @@
+{
+  "typeAcquisition": {
+    "enable": true
+  },
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "strict": true,
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "noImplicitAny": false,
+    "strictNullChecks": false
+  }
+}

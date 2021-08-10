@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.4.0",
+    "@volar/experimental": "^0.26.14",
     "@vue/compiler-sfc": "^3.2.1",
     "@vue/eslint-config-prettier": "^6.0.0",
     "eslint": "^7.32.0",
