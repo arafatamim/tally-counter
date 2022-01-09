@@ -98,6 +98,7 @@ function deleteCounter() {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  transition: background-color 0.2s, border 0.2s;
   &:hover > .del-icon {
     opacity: 1;
   }
