@@ -12,6 +12,19 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { onSwipeMove, onSwipeStop } from "./utils/gesture";
+import { registerSW } from "virtual:pwa-register";
+
+registerSW({
+  onRegistered() {
+    console.log("Service worker has been registered.");
+  },
+  onNeedRefresh() {
+    console.log("Application has been updated. Refresh is required!");
+  },
+  onOfflineReady() {
+    console.log("Ready to work offline.");
+  },
+});
 
 library.add(
   faPlusSquare,
