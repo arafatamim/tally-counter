@@ -58,7 +58,13 @@ const props = defineProps({
   counterValue: Number,
   selected: Boolean,
 });
-const emit = defineEmits(["set-name", "set-value", "del-counter"]);
+const emit = defineEmits([
+  "set-name",
+  "set-value",
+  "del-counter",
+  "inc-counter",
+  "dec-counter",
+]);
 const { counterName, counterValue } = toRefs(props);
 
 const name = computed({
@@ -92,7 +98,6 @@ function deleteCounter() {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  transition: all 0.2s;
   &:hover > .del-icon {
     opacity: 1;
   }

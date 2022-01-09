@@ -11,22 +11,24 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/vue-fontawesome": "^3.0.0-4",
-    "hammerjs": "^2.0.8",
-    "nanoid": "^3.1.23",
+    "ezgesture": "^1.1.4",
+    "nanoid": "^3.1.30",
     "normalize.css": "^8.0.1",
-    "vue": "^3.2.1"
+    "vue": "^3.2.26"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.4.0",
-    "@volar/experimental": "^0.26.14",
-    "@vue/compiler-sfc": "^3.2.1",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-prettier": "3.4.0",
-    "eslint-plugin-vue": "^7.15.2",
-    "prettier": "^2.3.2",
-    "sass": "^1.37.5",
-    "vite": "^2.4.4",
-    "vite-plugin-pwa": "^0.10.0"
+    "@babel/core": "^7.16.7",
+    "@babel/eslint-parser": "^7.16.5",
+    "@vitejs/plugin-vue": "^2.0.1",
+    "@volar/experimental": "^0.30.2",
+    "@vue/compiler-sfc": "^3.2.26",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "eslint": "^8.6.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-vue": "^8.2.0",
+    "prettier": "^2.5.1",
+    "sass": "^1.46.0",
+    "vite": "^2.7.10",
+    "vite-plugin-pwa": "^0.11.12"
   }
 }

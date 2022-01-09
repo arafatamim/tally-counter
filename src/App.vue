@@ -4,7 +4,8 @@
     <transition-group name="list" @before-leave="beforeLeave">
       <Counter
         v-for="(counter, i) in counters"
-        v-swipe="(e) => onSwipe(e, counter.id)"
+        v-swipe-move="(el, e) => onSwipeMove(el, e)"
+        v-swipe-stop="(el, e) => onSwipeStop(el, e, counter.id)"
         :counterName="counter.name"
         :counterValue="counter.value"
         :selected="selectMode && selectedCounter === i"
@@ -102,6 +103,9 @@ function toggleSelectMode() {
   return true;
 }
 
+/**
+ * @param {KeyboardEvent} e
+ */
 function keyboardListener(e) {
   if (e.key === "ArrowRight") {
     // If selectMode is not enabled,
@@ -208,15 +212,24 @@ function addNewCounter() {
   }, 100);
 }
 
+/**
+ * @param {string} id
+ */
 function deleteCounter(id) {
   // counters.value.splice(index, 1);
   counters.value = counters.value.filter((counter) => counter.id !== id);
 }
 
+/**
+ * @param {number} index
+ */
 function increaseCounter(index) {
   const currentCounter = counters.value[index];
   currentCounter.value += 1;
 }
+/**
+ * @param {number} index
+ */
 function decreaseCounter(index) {
   if (counters.value[index].value > 0) counters.value[index].value -= 1;
 }
@@ -230,52 +243,71 @@ function resetAllCounters() {
   }
 }
 
+/**
+ * @param {string} payload
+ * @param {CounterObject} item
+ */
 function setCounterName(payload, item) {
   item.name = payload;
 }
+/**
+ * @param {string} payload
+ * @param {CounterObject} item
+ */
 function setCounterValue(payload, item) {
   if (typeof parseInt(payload) == "number") {
     item.value = parseInt(payload);
   }
 }
 
+/**
+ * @param {HTMLElement} el
+ */
 function beforeLeave(el) {
   if (el != null) {
     const { marginLeft, marginTop, width, height } =
       window.getComputedStyle(el);
 
-    el.style.left = `${el.offsetLeft - parseFloat(marginLeft, 10)}px`;
-    el.style.top = `${el.offsetTop - parseFloat(marginTop, 10)}px`;
+    el.style.left = el.offsetLeft - parseFloat(marginLeft, 10) + "px";
+    el.style.top = el.offsetTop - parseFloat(marginTop, 10) + "px";
     el.style.width = width;
     el.style.height = height;
   }
 }
 
+const maxSwipeOffset = Math.min(200, window.innerWidth / 5);
+
 /**
- * @param _ {unknown}
- * @param id {string}
+ * @param {HTMLElement} el
+ * @param {CustomEvent} e
  */
-function onSwipe(_, id) {
-  // TODO: implement swipe animation
-  deleteCounter(id);
+function onSwipeMove(el, e) {
+  const { offsetX } = e.detail;
+  const p = Math.abs(offsetX) / maxSwipeOffset;
+  el.style.transform = "translateX(" + offsetX + "px)";
+  el.style.opacity = 1 - p;
 }
 
-// return {
-//   counters,
-//   totalCounterValue,
-//   addNewCounter,
-//   deleteCounter,
-//   increaseCounter,
-//   decreaseCounter,
-//   removeAllCounters,
-//   resetAllCounters,
-//   setCName,
-//   setCValue,
-//   beforeLeave,
-//   onSwipe,
-//   selectMode,
-//   selectedCounter,
-// };
+/**
+ * @param {HTMLElement} el
+ * @param {CustomEvent} e
+ * @param {string} id
+ */
+function onSwipeStop(el, e, id) {
+  const { offsetX } = e.detail;
+  el.style.transform = "";
+  el.style.opacity = "";
+
+  if (Math.abs(offsetX) >= maxSwipeOffset) {
+    // removed
+    el.style.opacity = 0;
+    deleteCounter(id);
+  } else {
+    // not removed
+    el.style.transition = "transform 300ms";
+    setTimeout(() => void (el.style.transition = ""), 300);
+  }
+}
 </script>
 
 <style lang="scss">
@@ -304,20 +336,21 @@ body {
 }
 
 .list-enter-active {
-  // opacity: 0;
   transition: all 0.3s ease;
 }
 
 .list-leave-active {
+  opacity: 0;
   position: absolute;
   transition: all 0.3s ease;
 }
 
 .scale-enter-active,
 .scale-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0, 0, 1); /* cubic-bezier(0.175, 0.885, 0.32, 1.275);*/
+  transition: all 0.3s cubic-bezier(1, 0, 0, 1);
 }
-.scale-enter-from, .scale-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.scale-enter-from,
+.scale-leave-to {
   transform: scale(0);
   opacity: 0;
 }

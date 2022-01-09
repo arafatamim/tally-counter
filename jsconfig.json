@@ -4,11 +4,9 @@
   },
   "compilerOptions": {
     "alwaysStrict": true,
+    "checkJs": false,
     "strict": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "noImplicitAny": false,
     "strictNullChecks": false
   }

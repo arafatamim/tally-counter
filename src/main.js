@@ -11,7 +11,7 @@ import {
   faArrowAltCircleDown,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { swipe } from "./utils/hammer";
+import { onSwipeMove, onSwipeStop } from "./utils/gesture";
 
 library.add(
   faPlusSquare,
@@ -24,5 +24,6 @@ library.add(
 
 createApp(App)
   .component("font-awesome-icon", FontAwesomeIcon)
-  .directive("swipe", swipe)
+  .directive("swipe-move", onSwipeMove)
+  .directive("swipe-stop", onSwipeStop)
   .mount("#app");
