@@ -38,12 +38,19 @@
       <template v-slot:expanded>
         <div>Number of counters: {{ counters.length }}</div>
         <div class="bottom-tools">
+          <button
+            v-if="counters.length >= 2 && totalCounterValue > 0"
+            @click="sortAllCounters"
+            aria-label="Sort All Counters"
+          >
+            Sort all counters
+          </button>
           <button @click="removeAllCounters" aria-label="Remove All Counters">
             Remove all counters
           </button>
           <button
-            @click="resetAllCounters"
             v-if="totalCounterValue !== 0"
+            @click="resetAllCounters"
             aria-label="Reset All Counters"
           >
             Reset all counters
@@ -241,6 +248,12 @@ function resetAllCounters() {
   for (const counter of counters.value) {
     counter.value = 0;
   }
+}
+
+function sortAllCounters() {
+  counters.value.sort((prev, next) =>
+    prev.value > next.value ? -1 : prev.value === next.value ? 0 : 1
+  );
 }
 
 /**

@@ -11,17 +11,15 @@ Simple tally counter which you can save as an app (PWA).
 ## Project setup (for developers)
 
 ```
-npm install
+pnpm install
 ```
 
 ### Compiles and hot-reloads for development
 
 ```
-npm run serve
+pnpm run dev
 ```
 
 ## License
 
-MIT Licensed
-
-By Tamim Arafat, 2019.
+MIT Licensed.
