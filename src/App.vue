@@ -2,57 +2,31 @@
   <Header />
   <Container>
     <transition-group name="list" @before-leave="beforeLeave">
-      <Counter
-        v-for="(counter, i) in counters"
-        v-swipe-move="(el, e) => onSwipeMove(el, e)"
-        v-swipe-stop="(el, e) => onSwipeStop(el, e, counter.id)"
-        :counterName="counter.name"
-        :counterValue="counter.value"
-        :selected="selectMode && selectedCounter === i"
-        :key="counter.id"
-        @inc-counter="() => increaseCounter(i)"
-        @dec-counter="() => decreaseCounter(i)"
-        @set-name="setCounterName($event, counter)"
-        @set-value="setCounterValue($event, counter)"
-        @del-counter="() => deleteCounter(counter.id)"
-      />
+      <Counter v-for="(counter, i) in counters" v-swipe-move="(el, e) => onSwipeMove(el, e)"
+        v-swipe-stop="(el, e) => onSwipeStop(el, e, counter.id)" :counterName="counter.name"
+        :counterValue="counter.value" :selected="selectMode && selectedCounter === i" :key="counter.id"
+        @inc-counter="() => increaseCounter(i)" @dec-counter="() => decreaseCounter(i)"
+        @set-name="setCounterName($event, counter)" @set-value="setCounterValue($event, counter)"
+        @del-counter="() => deleteCounter(counter.id)" />
       <NewCounter @add-new-counter="addNewCounter" key="new_counter" />
-      <div
-        id="bottom-padding"
-        :style="{ height: '70px' }"
-        key="bottom_padding"
-      ></div>
+      <div id="bottom-padding" :style="{ height: '70px' }" key="bottom_padding"></div>
     </transition-group>
   </Container>
   <transition name="scale">
-    <Modal
-      :closeButton="false"
-      :fixed="true"
-      rightEdge="20px"
-      bottomEdge="20px"
-      origin="bottom right"
-      v-if="totalCounterValue > 0 || counters.length > 1"
-      :enableExpanded="counters.length > 1"
-    >
+    <Modal :closeButton="false" :fixed="true" rightEdge="20px" bottomEdge="20px" origin="bottom right"
+      v-if="totalCounterValue > 0 || counters.length > 1" :enableExpanded="counters.length > 1">
       Total value: {{ totalCounterValue }}
       <template v-slot:expanded>
         <div>Number of counters: {{ counters.length }}</div>
         <div class="bottom-tools">
-          <button
-            v-if="counters.length >= 2 && totalCounterValue > 0"
-            @click="sortAllCounters"
-            aria-label="Sort All Counters"
-          >
+          <button v-if="counters.length >= 2 && totalCounterValue > 0" @click="sortAllCounters"
+            aria-label="Sort All Counters">
             Sort all counters
           </button>
           <button @click="removeAllCounters" aria-label="Remove All Counters">
             Remove all counters
           </button>
-          <button
-            v-if="totalCounterValue !== 0"
-            @click="resetAllCounters"
-            aria-label="Reset All Counters"
-          >
+          <button v-if="totalCounterValue !== 0" @click="resetAllCounters" aria-label="Reset All Counters">
             Reset all counters
           </button>
         </div>
@@ -155,13 +129,8 @@ function keyboardListener(e) {
   }
   if (e.key === "Delete") {
     if (!toggleSelectMode()) return;
-    if (
-      selectedCounter.value === counters.value.length - 1 &&
-      counters.value.length != 1
-    ) {
-      selectedCounter.value -= 1;
-    }
     deleteCounter(counters.value[selectedCounter.value].id);
+    updateSelectedCounterValue()
   }
 
   if (e.key === "+") {
@@ -288,6 +257,15 @@ function beforeLeave(el) {
   }
 }
 
+function updateSelectedCounterValue() {
+  if (selectedCounter.value >= counters.value.length) {
+    selectedCounter.value = counters.value.length - 1
+  }
+  if (selectedCounter.value < 0) {
+    selectedCounter.value = 0
+  }
+}
+
 const maxSwipeOffset = Math.min(200, window.innerWidth / 5);
 
 /**
@@ -315,6 +293,7 @@ function onSwipeStop(el, e, id) {
     // removed
     el.style.opacity = 0;
     deleteCounter(id);
+    updateSelectedCounterValue()
   } else {
     // not removed
     el.style.transition = "transform 300ms";
@@ -330,6 +309,7 @@ body {
   background-color: $bg-colour;
   color: $fg-colour;
 }
+
 #app {
   font-family: $base-font;
   -webkit-font-smoothing: antialiased;
@@ -339,9 +319,11 @@ body {
 .list-move {
   transition: transform 0.3s ease;
 }
+
 .list-item {
   transition: all 0.3s ease;
 }
+
 .list-enter-from,
 .list-leave-to {
   opacity: 0;
@@ -362,6 +344,7 @@ body {
 .scale-leave-active {
   transition: all 0.3s cubic-bezier(1, 0, 0, 1);
 }
+
 .scale-enter-from,
 .scale-leave-to {
   transform: scale(0);
