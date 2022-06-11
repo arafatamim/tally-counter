@@ -111,7 +111,8 @@ function keyboardListener(e) {
 
     if (
       counters.value.length > 0 &&
-      selectedCounter.value < counters.value.length - 1
+      selectedCounter.value < counters.value.length - 1 &&
+      !(selectedCounter.value + getWrapperColumns() >= counters.value.length)
     ) {
       selectedCounter.value += getWrapperColumns();
     }
@@ -120,7 +121,9 @@ function keyboardListener(e) {
   if (e.key === "ArrowUp") {
     if (!toggleSelectMode()) return;
 
-    if (counters.value.length > 0 && selectedCounter.value > 0)
+    if (counters.value.length > 0 && selectedCounter.value > 0 &&
+      !(selectedCounter.value - getWrapperColumns() < 0)
+    )
       selectedCounter.value -= getWrapperColumns();
   }
 
